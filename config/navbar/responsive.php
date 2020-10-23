@@ -16,14 +16,14 @@ return [
             "title" => "The home page.",
         ],
         [
+            "text" => "CTF",
+            "url" => "ctf",
+            "title" => "Choose and work with the CTFs.",
+        ],
+        [
             "text" => "About",
             "url" => "about",
             "title" => "About this website.",
-        ],
-        [
-            "text" => "Dev",
-            "url" => "dev",
-            "title" => "Anax development utilities",
         ],
     ],
 ];

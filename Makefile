@@ -169,7 +169,7 @@ install: prepare install-production install-tools-php install-tools-bash
 
 # target: install-production      - Install tools needed for production
 .PHONY:  install-production
-install-production: 
+install-production:
 	@$(call HELPTEXT,$@)
 	[ ! -f composer.json ] || composer --no-dev install
 
@@ -746,3 +746,16 @@ virtual-host-https:
 	sudo a2enmod ssl
 	sudo apachectl configtest
 	sudo service apache2 reload
+
+# target: ctf-build               - Update dbwebb/cft and use the new version.
+.PHONY: ctf-build
+ctf-build:
+	@$(call HELPTEXT,$@)
+	#composer update dbwebb/ctf
+	install --mode=0777 -d data/ctf/db
+	#rsync -av vendor/dbwebb/ctf/data/ctf.sqlite data/ctf
+	rsync -av ../ctf/data/ctf.sqlite data/ctf/db
+	chmod 666 data/ctf/db/ctf.sqlite
+
+	install -d data/ctf/target
+	cp ../ctf/src/*/target/* data/ctf/target

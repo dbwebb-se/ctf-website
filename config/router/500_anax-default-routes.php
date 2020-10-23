@@ -5,6 +5,11 @@
 return [
     "routes" => [
         [
+            "mount"     => "ctf",
+            "handler"   => "\Anax\Ctf\CtfController",
+            "info"      => "Controller to manage CTF.",
+        ],
+        [
             "mount"     => "dev",
             "handler"   => "\Anax\Controller\DevelopmentController",
             "info"      => "Development and debugging information.",
