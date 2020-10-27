@@ -191,75 +191,6 @@ tag-prepare:
 
 
 
-# ----------------------------------------------------------------------------
-#
-# docker
-#
-# target: docker-up               - Start all docker container="", or specific, default "latest".
-.PHONY: docker-up
-docker-up:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml up -d $(container)
-
-
-
-# target: docker-stop             - Stop running docker containers.
-.PHONY: docker-stop
-docker-stop:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml stop
-
-
-
-# target: docker-run              - Run container="" with what="" one off command.
-.PHONY: docker-run
-docker-run:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) $(what)
-
-
-
-# target: docker-bash             - Run container="" with what="bash" one off command.
-.PHONY: docker-bash
-docker-bash:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) bash
-
-
-
-# target: docker-exec             - Run container="" with what="" command in running container.
-.PHONY: docker-exec
-docker-exec:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml exec $(container) $(what)
-
-
-
-# target: docker-install          - Run make install in container="".
-.PHONY: docker-install
-docker-install:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) make install
-
-
-
-# target: docker-test             - Run make test in container="".
-.PHONY: docker-test
-docker-test:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) make test
-
-
-
-# target: check-docker            - Check versions of docker.
-.PHONY: check-docker
-check-docker:
-	@$(call HELPTEXT,$@)
-	@$(call CHECK_VERSION, docker, | cut -d" " -f3-)
-	@$(call CHECK_VERSION, docker-compose, | cut -d" " -f3-)
-
-
-
 # ------------------------------------------------------------------------
 #
 # PHP
@@ -278,7 +209,8 @@ install-tools-php:
 
 	curl -Lso $(PHPMD) http://static.phpmd.org/php/latest/phpmd.phar && chmod 755 $(PHPMD)
 
-	curl -Lso $(PHPLOC) https://phar.phpunit.de/phploc.phar && chmod 755 $(PHPLOC)
+	# phpmd
+	curl -Lso $(PHPMD) https://github.com/phpmd/phpmd/releases/download/2.8.1/phpmd.phar && chmod 755 $(PHPMD)
 
 	curl -Lso $(BEHAT) https://github.com/Behat/Behat/releases/download/v3.3.0/behat.phar && chmod 755 $(BEHAT)
 
