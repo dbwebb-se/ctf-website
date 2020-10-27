@@ -22,22 +22,42 @@ $class = $class ?? null;
 
 <header>
 <h1>CTF No <?= $ctf->id ?></h1>
-<p>By <?= $ctf->author ?>, updated <?= date("Y-m-d", $ctf->updated) ?>.</p>
-</header>
 
-<p>Level: <?= $ctf->level ?></p>
+<table>
+    <tr>
+        <th>Author</th>
+        <th>Level</th>
+        <th>Time to solve</th>
+        <th>Updated</th>
+        <th>Tag</th>
+    </tr>
 
-<p>Estimated time to solve: <?= $ctf->tts ?> minutes.</p>
-
-<p class="tag">Tags:
-<?php foreach ($tags as $tag) : ?>
-    <?= $tag->name ?>
-<?php endforeach; ?>
-</p>
+    <tr>
+        <td><?= $ctf->author ?></td>
+        <td><?= $ctf->level ?></td>
+        <td class="right"><?= $ctf->tts ?></td>
+        <td><?= date("Y-m-d", $ctf->updated) ?></td>
+        <td>
+            <?php foreach ($tags as $tag) : ?>
+                <?= $tag->name ?>
+            <?php endforeach; ?>
+        </td>
+    </tr>
+</table>
 
 <?= $ctf->text ?>
 
 Start here: <a href="<?= urlController("target/{$ctf->target}") ?>"><?= $ctf->target ?></a>
+
+
+
+<h2>Check the flag</h2>
+
+<form>
+    <input type="text" name="flag" placeholder="Enter flag to verify it">
+    <input type="submit" value="Verify">
+    <output id="flag">MOPED</output>
+</form>
 
 
 

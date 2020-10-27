@@ -29,5 +29,5 @@ return [
     "verbose"         => null,
 
     // True to be verbose on connection failed
-    "debug_connect"   => true,
+    "debug_connect"   => false,
 ];
