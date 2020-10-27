@@ -16,7 +16,7 @@
  */
 return [
     //"dsn"             => null,
-    "dsn"             => "sqlite:" . ANAX_INSTALL_PATH . "/data/ctf/ctf.sqlite",
+    "dsn"             => "sqlite:" . ANAX_INSTALL_PATH . "/data/ctf/db/ctf.sqlite",
     "username"        => null,
     "password"        => null,
     "driver_options"  => null,

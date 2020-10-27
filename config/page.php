@@ -15,7 +15,7 @@ return [
         "region" => "layout",
         "sort" => null,
         "data" => [
-            "baseTitle" => " | Anax",
+            "baseTitle" => " | CTF@dbwebb",
             "favicon" => "favicon.ico",
             "bodyClass" => null,
             "htmlClass" => null,
@@ -47,7 +47,7 @@ return [
             "template" => "anax/v2/header/site_logo_text",
             "data" => [
                 "homeLink"      => "",
-                "siteLogoText"  => "Anax",
+                "siteLogoText"  => "CTF@dbwebb",
                 "siteLogoTextIcon" => "image/theme/leaf_40x40.png",
                 "siteLogoTextIconAlt" => "Leaf",
             ],

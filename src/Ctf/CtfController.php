@@ -2,10 +2,11 @@
 
 namespace Anax\Ctf;
 
-use \Anax\Configure\ConfigureInterface;
-use \Anax\Configure\ConfigureTrait;
-use \Anax\Commons\ContainerInjectableInterface;
-use \Anax\Commons\ContainerInjectableTrait;
+use Anax\Configure\ConfigureInterface;
+use Anax\Configure\ConfigureTrait;
+use Anax\Commons\ContainerInjectableInterface;
+use Anax\Commons\ContainerInjectableTrait;
+use Anax\Route\Exception\NotFoundException;
 
 /**
  * A controller class.
@@ -86,16 +87,16 @@ class CtfController
         $db = $this->di->get("db");
 
         $db->connect();
-        $sql = "SELECT id, title, author FROM ctf";
+        $sql = "SELECT * FROM ctf";
         $res = $db->executeFetchAll($sql);
 
         $data = [
-            "content" => "<pre>" . print_r($res, 1) . "</pre>",
+            "ctfs" => $res,
         ];
-        $page->add("anax/v2/article/default", $data);
+        $page->add("ctf/all", $data);
 
         return $page->render([
-            "title" => __METHOD__,
+            "title" => "CTF @ dbwebb ",
         ]);
     }
 
@@ -116,15 +117,71 @@ class CtfController
         $res = $db->executeFetch($sql, [$id]);
         $sql = "SELECT * FROM ctf2tag WHERE ctf_id = ?";
         $tag = $db->executeFetchAll($sql, [$id]);
+        $sql = "SELECT * FROM hint WHERE ctf_id = ?";
+        $hint = $db->executeFetchAll($sql, [$id]);
 
         $data = [
             "ctf" => $res,
             "tags" => $tag,
+            "hints" => $hint,
         ];
         $page->add("ctf/one", $data);
 
         return $page->render([
             "title" => "CTF - '"
+                . ($res->title ?? "No title")
+                . "'",
+        ]);
+    }
+
+
+
+    /**
+     * Download a target for a CTF.
+     *
+     * @return object response to render.
+     */
+    public function targetAction($targetId) : object
+    {
+        $base = realpath(ANAX_INSTALL_PATH . "/data/ctf/target");
+        $target = realpath("$base/$targetId");
+
+        if (substr_compare($target, $base, 0, strlen($base))) {
+            // Security, trying to mix with the base?
+            throw new NotFoundException("No such target exists.");
+        } elseif(!is_readable($target)) {
+            throw new NotFoundException("No such target exists.");
+        }
+
+        return $this->di->get("response")->addFile($target);
+    }
+
+
+
+    /**
+     * Show a hint for a ctf.
+     *
+     * @return object response to render.
+     */
+    public function hintAction($ctfId, $hintId) : object
+    {
+        $page = $this->di->get("page");
+        $db = $this->di->get("db");
+
+        $db->connect();
+        $sql = "SELECT * FROM ctf WHERE id = ?";
+        $res = $db->executeFetch($sql, [$ctfId]);
+        $sql = "SELECT * FROM hint WHERE ctf_id = ? AND id = ?";
+        $hint = $db->executeFetch($sql, [$ctfId, $hintId]);
+
+        $data = [
+            "ctf" => $res,
+            "hint" => $hint,
+        ];
+        $page->add("ctf/hint", $data);
+
+        return $page->render([
+            "title" => "CTF hint - '"
                 . ($res->title ?? "No title")
                 . "'",
         ]);
@@ -148,8 +205,19 @@ class CtfController
      */
     public function catchAll(...$args) : object
     {
-        $page    = $this->di->get("page");
+        // $title = $args[0] ?? null;
+        //
+        // if (is_string($title)) {
+        //     $db = $this->di->get("db");
+        //     $db->connect();
+        //     $sql = "SELECT * FROM ctf WHERE title = ?";
+        //     $res = $db->executeFetch($sql, [$title]);
+        //     if ($res->id ?? null) {
+        //         return idAction($res->id);
+        //     }
+        // }
 
+        $page = $this->di->get("page");
         $data = [
             "content" => $this->getDetailsOnRequest(__METHOD__, $args),
         ];

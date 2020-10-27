@@ -78,7 +78,7 @@ BATS := $(BIN)/bats
 #
 # Specifics for website projects
 #
-WWW_SITE		:= rem.dbwebb.se
+WWW_SITE		:= ctf.dbwebb.se
 WWW_LOCAL		:= local.$(WWW_SITE)
 SERVER_ADMIN 	:= mos@$(WWW_SITE)
 BASE_URL    	:= https://$(WWW_SITE)/
@@ -754,7 +754,7 @@ ctf-build:
 	#composer update dbwebb/ctf
 	install --mode=0777 -d data/ctf/db
 	#rsync -av vendor/dbwebb/ctf/data/ctf.sqlite data/ctf
-	rsync -av ../ctf/data/ctf.sqlite data/ctf/db
+	rsync -av ../ctf/data/ctf.sqlite data/ctf/db/
 	chmod 666 data/ctf/db/ctf.sqlite
 
 	install -d data/ctf/target
