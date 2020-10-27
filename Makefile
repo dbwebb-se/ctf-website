@@ -436,6 +436,8 @@ site-build:
 
 	# Create the htdocs cache directory
 	install -m 0777 -d $(LOCAL_HTDOCS)/cache
+	install -m 0777 -d $(LOCAL_HTDOCS)/cache/anax
+	install -m 0777 -d $(LOCAL_HTDOCS)/cache/cimage
 
 # Create and sync cache
 #bash -c "install -d -m 777 cache/{cimage,anax,forum,forum-files}"
