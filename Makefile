@@ -454,7 +454,7 @@ site-build:
 .PHONY: local-publish
 local-publish:
 	@$(call HELPTEXT,$@)
-	rsync -av $(EXCLUDE_ON_PUBLISH) config content htdocs view vendor $(LOCAL_HTDOCS)
+	rsync -av $(EXCLUDE_ON_PUBLISH) config content data htdocs view vendor $(LOCAL_HTDOCS)
 
 	@# Enable robots if available
 	[ ! -f $(ROBOTSTXT) ] || cp $(ROBOTSTXT) "$(LOCAL_HTDOCS)/htdocs/robots.txt"
